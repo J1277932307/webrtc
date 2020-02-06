@@ -18,6 +18,6 @@ if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
     }
 
     navigator.mediaDevices.getUserMedia(constraints)
-        .then(gotMediaSream)
+        .then(gotMediaStream)
         .catch(handleError)
 }
