@@ -39,7 +39,10 @@ if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
     console.log('getUserMedia is not supported!');
 } else {
     var constraints  = {
-        video : true,
+        video : {
+            width:320,
+            height:240
+        },
         audio : true
     }
 
