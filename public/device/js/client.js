@@ -24,12 +24,14 @@ function gotDevices(deviceInfos) {
         option.text = deviceInfo.label;
         option.value = deviceInfo.deviceId;
 
-        if (deviceInfo.kind == 'audioinput') {
+        if (deviceInfo.kind === 'audioinput') {
             audioSource.appendChild(option);
-        }else if (deviceInfo.kind == 'audiooutput') {
+        }else if (deviceInfo.kind === 'audiooutput') {
             audioOutput.appendChild(option);
-        }else if (deviceInfo.kind == 'videoinput') {
+        }else if (deviceInfo.kind === 'videoinput') {
             videoSource.appendChild(option);
+        } else {
+
         }
     })
 }
