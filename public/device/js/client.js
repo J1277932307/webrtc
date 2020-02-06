@@ -4,10 +4,15 @@ var audioSource = document.querySelector("select#audioSource");
 var audioOutput = document.querySelector("select#audioInput");
 var videoSource = document.querySelector("select#videoInput");
 
+var constraints = {
+    video:true,
+    audio:true
+}
+
 if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
     console.log('enumerateDevices is not supported!');
 } else {
-    navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
+    navigator.mediaDevices.getUserMedia(constraints).then(gotDevices).catch(handleError);
 }
 
 function gotDevices(deviceInfos) {
