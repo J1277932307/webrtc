@@ -12,7 +12,7 @@ if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
 
 function gotDevices(deviceInfos) {
     deviceInfos.forEach(function (deviceInfo) {
-        console.log(deviceInfo.kind + ":label = " + deviceInfo.label + ":id = " + deviceInfo.deviceId + "groupId = " + deviceInfo.groupId);
+        console.log("-----kind = " + deviceInfo.kind + "\n-----label = " + deviceInfo.label + "\n------id = " + deviceInfo.deviceId + "\n-----groupId = " + deviceInfo.groupId);
 
         var option = document.createElement('option');
         option.text = deviceInfo.label;
