@@ -12,7 +12,8 @@ var constraints = {
 if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
     console.log('enumerateDevices is not supported!');
 } else {
-    navigator.mediaDevices.getUserMedia(constraints).then(gotDevices).catch(handleError);
+    navigator.mediaDevices.getUserMedia(constraints);
+    navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
 }
 
 function gotDevices(deviceInfos) {
