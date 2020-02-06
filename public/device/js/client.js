@@ -26,10 +26,10 @@ function gotDevices(deviceInfos) {
 
         if (deviceInfo.kind === 'audioinput') {
             audioSource.appendChild(option);
+        }else if (deviceInfo.kind === 'videoinput') {
+            videoinput.appendChild(option);
         }else if (deviceInfo.kind === 'audiooutput') {
             audioOutput.appendChild(option);
-        }else if (deviceInfo.kind === 'videoinput') {
-            videoSource.appendChild(option);
         } else {
 
         }
