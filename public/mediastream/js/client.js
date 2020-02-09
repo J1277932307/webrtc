@@ -40,7 +40,7 @@ function gotDevices(deviceInfos) {
 
 function gotMediaStream(stream) {
     videoplay.srcObject = stream;
-    var videoTrack = stream.getVideoTracks();
+    var videoTrack = stream.getVideoTracks()[0];
     var videoConstraints = videoTrack.getSettings();
     divConstraints.textContent = JSON.stringify(videoConstraints, null, 2);
 
