@@ -4,7 +4,7 @@
 var audioSource = document.querySelector('select#audioSource');
 var audioOutput = document.querySelector('select#audioOutput');
 var videoSource = document.querySelector('select#videoSource')
-//var videoplay = document.querySelector('video#player');
+var videoplay = document.querySelector('video#player');
 
 var audioplayer = document.querySelector('audio#audioplayer');
 
