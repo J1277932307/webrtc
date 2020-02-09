@@ -42,8 +42,7 @@ if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
         video: {
             width: 640,
             height: 180,
-            frameRate: 15,
-            facingMode:user
+            frameRate: 15
         },
         audio: true
     }
