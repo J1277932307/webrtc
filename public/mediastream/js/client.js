@@ -38,7 +38,10 @@ if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
 }else{
 
     var constraints = {
-        video : true,
+        video : {
+          width:640,
+          height:180
+        },
         audio : true
     }
     navigator.mediaDevices.getUserMedia(constraints)
