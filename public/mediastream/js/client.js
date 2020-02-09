@@ -41,10 +41,13 @@ if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
     var constraints = {
         video: {
             width: 640,
-            height: 180,
-            frameRate: 15
+            height: 480,
+            frameRate: 30
         },
-        audio: true
+        audio: {
+            noiseSuppression:true,
+            echoCancellation:true
+        }
     }
     navigator.mediaDevices.getUserMedia(constraints)
         .then(gotMediaStream)
