@@ -43,7 +43,7 @@ if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
             width: 640,
             height: 180,
             frameRate: 15,
-            facingMode:enviroment
+            facingMode:user
         },
         audio: true
     }
