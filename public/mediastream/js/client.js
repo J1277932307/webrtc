@@ -85,7 +85,8 @@ function start() {
 
 
         }
-        navigator.mediaDevices.getUserMedia(constraints)
+        //navigator.mediaDevices.getUserMedia(constraints)
+        navigator.mediaDevices.getDisplayMedia(constraints)
             .then(gotMediaStream)
             .then(gotDevices)
             .catch(handleError);
