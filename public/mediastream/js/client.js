@@ -5,6 +5,7 @@ var audioSource = document.querySelector('select#audioSource');
 var audioOutput = document.querySelector('select#audioOutput');
 var videoSource = document.querySelector('select#videoSource')
 var videoplay = document.querySelector('video#player');
+
 function gotDevices(deviceInfos) {
     deviceInfos.forEach(function (deviceInfo) {
 
@@ -14,9 +15,9 @@ function gotDevices(deviceInfos) {
 
         if (deviceInfo.kind === 'audioinput') {
             audioSource.appendChild(option);
-        }else if (deviceInfo.kind === 'audiooutput') {
+        } else if (deviceInfo.kind === 'audiooutput') {
             audioOutput.appendChild(option);
-        }else if (deviceInfo.kind === 'videoinput') {
+        } else if (deviceInfo.kind === 'videoinput') {
             videoSource.appendChild(option);
         }
 
@@ -27,22 +28,24 @@ function gotMediaStream(stream) {
     videoplay.srcObject = stream;
     return navigator.mediaDevices.enumerateDevices();
 }
+
 function handleError(err) {
     console.log('getUserMedia error:', err);
 }
 
 
-
-if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
     console.log('getUserMedia is not supported!');
-}else{
+} else {
 
     var constraints = {
-        video : {
-          width:640,
-          height:180
+        video: {
+            width: 640,
+            height: 180,
+            frameRate: 15,
+            facingMode:enviroment
         },
-        audio : true
+        audio: true
     }
     navigator.mediaDevices.getUserMedia(constraints)
         .then(gotMediaStream)
