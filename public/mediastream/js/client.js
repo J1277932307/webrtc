@@ -33,24 +33,35 @@ function handleError(err) {
     console.log('getUserMedia error:', err);
 }
 
+function start() {
 
-if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-    console.log('getUserMedia is not supported!');
-} else {
 
-    var constraints = {
-        video: {
-            width: 640,
-            height: 480,
-            frameRate: 30
-        },
-        audio: {
-            noiseSuppression:true,
-            echoCancellation:true
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        console.log('getUserMedia is not supported!');
+    } else {
+
+        var deviceId = videoSource.value;
+        var constraints = {
+            video: {
+                width: 640,
+                height: 480,
+                frameRate: 30,
+                facingMode:'enviroment',
+                deviceId: deviceId ? deviceId : undefined
+            },
+            audio: {
+                noiseSuppression: true,
+                echoCancellation: true
+            },
+
+
         }
+        navigator.mediaDevices.getUserMedia(constraints)
+            .then(gotMediaStream)
+            .then(gotDevices)
+            .catch(handleError);
     }
-    navigator.mediaDevices.getUserMedia(constraints)
-        .then(gotMediaStream)
-        .then(gotDevices)
-        .catch(handleError);
 }
+
+start();
+videoSource.onchange = start;
