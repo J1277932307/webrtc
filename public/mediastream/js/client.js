@@ -12,11 +12,11 @@ function gotDevices(deviceInfos) {
         option.text = deviceInfo.label;
         option.value = deviceInfo.deviceId;
 
-        if (deviceInfo.kind === 'audioiput') {
-            audioSource.appendChild(option);
+        if (deviceInfo.kind === 'audioinput') {
+            audioSource.appendChild(option);n
         }else if (deviceInfo.kind === 'audiooutput') {
             audioOutput.appendChild(option);
-        }else if (deviceInfo.kid === 'videoinput') {
+        }else if (deviceInfo.kind === 'videoinput') {
             videoSource.appendChild(option);
         }
 
