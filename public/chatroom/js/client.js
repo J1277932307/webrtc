@@ -40,7 +40,3 @@ btnSend.onclick = ()=>{
     inputArea.value = '';
 }
 
-btnLeave.onclick = ()=>{
-    room = inputRoom.value;
-    socket.emit('leave', room);
-}
