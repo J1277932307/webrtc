@@ -96,7 +96,7 @@ var io = socketIo.listen(https_server);
 io.sockets.on('connection', (socket)=>{
 
     socket.on('message', (room, data)=>{
-        socket.to(room).emit('message', room, socket.id, data)//房间内所有人,除自己外
+        io.in(room).emit('message', room, socket.id, data)//房间内所有人
     });
 
     //该函数应该加锁
@@ -134,10 +134,10 @@ io.sockets.on('connection', (socket)=>{
         logger.log('the number of user in room is: ' + (users-1));
 
         socket.leave(room);
-        socket.to(room).emit('bye', room, socket.id)//房间内所有人,除自己外
+        //socket.to(room).emit('bye', room, socket.id)//房间内所有人,除自己外
         socket.emit('leaved', room, socket.id);
         //socket.to(room).emit('joined', room, socket.id);//除自己之外
-        //io.in(room).emit('joined', room, socket.id)//房间内所有人
+        io.in(room).emit('joined', room, socket.id)//房间内所有人
         //socket.broadcast.emit('joined', room, socket.id);//除自己，全部站点
     });
 
