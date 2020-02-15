@@ -82,7 +82,7 @@ io.sockets.on('connection',(socket)=>{
         var users = Object.keys(myRoom.sockets).length;
 
 
-        logger.log('the nuber of user in room is:' + (users - 1));
+        logger.log('the nuber of user in room is:' + (users ? users -1 : users));
         socket.leave(room);
         socket.to(room).emit('bye',room,socket.id);
         socket.emit('leaved',room,socket.id);
