@@ -50,28 +50,46 @@ var https_server = https.createServer(options, app);
 var io = socketIo.listen(https_server);
 
 io.sockets.on('connection',(socket)=>{
+
+    socket.on('message',(room,data)=>{
+        socket.to(room).emit('message',root,socket.id,data);
+    });
     socket.on('join',(room)=>{
+
         socket.join(room);
-        var myRoom = io.sockets.addpter.rooms[room];
+        var myRoom = io.sockets.adapter.rooms[room];
         var users = Object.keys(myRoom.sockets).length;
         logger.log('the nuber of user in room is:' + users);
+
+        if(users < 3){
+            socket.emit('joined', room, socket.id);
+            if(users >1){
+                socket.to(room).emit('otherjoin',room);
+            }
+        }else{
+            socket.leave(room);
+            socket.emit('full', room, socket.id);
+        }
         //socket.emit('joined',room,socket.id);
         //socket.to(room).emit('joined',rootm,socket.id); //除自己外，房间内所有人
         //io.in(room).emit('joined',room,socket.id);  //房间内所有人
-        socket.broadcast.emit('joined',room,socket.id); //除自己，节点上全部
+        //socket.broadcast.emit('joined',room,socket.id); //除自己，节点上全部
     });
 
     socket.on('leave',(room)=>{
 
-        var myRoom = io.sockets.addpter.rooms[room];
+        var myRoom = io.sockets.adapter.rooms[room];
         var users = Object.keys(myRoom.sockets).length;
 
+
+        logger.log('the nuber of user in room is:' + (users - 1));
         socket.leave(room);
-        logger.log('the nuber of user in room is:' + users - 1);
+        socket.to(room).emit('bye',room,socket.id);
+        socket.emit('leaved',room,socket.id);
         //socket.emit('joined',room,socket.id);
         //socket.to(room).emit('joined',rootm,socket.id); //除自己外，房间内所有人
         //io.in(room).emit('joined',room,socket.id);  //房间内所有人
-        socket.broadcast.emit('joined',room,socket.id); //除自己，节点上全部
+        //socket.broadcast.emit('joined',room,socket.id); //除自己，节点上全部
     });
 })
 https_server.listen(4433, '0.0.0.0');
