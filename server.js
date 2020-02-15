@@ -49,7 +49,7 @@ var options = {
 var https_server = https.createServer(options, app);
 var io = socketIo.listen(https_server);
 
-io.sockets.on('connection',(socket)=>{
+/*io.sockets.on('connection',(socket)=>{
 
     socket.on('message',(room,data)=>{
         socket.to(room).emit('message',root,socket.id,data);
@@ -91,6 +91,41 @@ io.sockets.on('connection',(socket)=>{
         //io.in(room).emit('joined',room,socket.id);  //房间内所有人
         //socket.broadcast.emit('joined',room,socket.id); //除自己，节点上全部
     });
-})
+})*/
+sockio.sockets.on('connection', (socket)=>{
+
+    socket.on('message', (room, data)=>{
+        socket.to(room).emit('message', room, socket.id, data)//房间内所有人
+    });
+
+    socket.on('join', (room)=> {
+        socket.join(room);
+        var myRoom = sockio.sockets.adapter.rooms[room];
+        var users = Object.keys(myRoom.sockets).length;
+        logger.log('the number of user in room is: ' + users);
+        socket.emit('joined', room, socket.id);
+        //socket.to(room).emit('joined', room, socket.id);//除自己之外
+        //io.in(room).emit('joined', room, socket.id)//房间内所有人
+        //socket.broadcast.emit('joined', room, socket.id);//除自己，全部站点
+    });
+
+    socket.on('leave', (room)=> {
+        var myRoom = sockio.sockets.adapter.rooms[room];
+        var users = Object.keys(myRoom.sockets).length;
+        //users - 1;
+
+        logger.log('the number of user in room is: ' + (users-1));
+
+        socket.leave(room);
+        socket.emit('leaved', room, socket.id);
+        //socket.to(room).emit('joined', room, socket.id);//除自己之外
+        //io.in(room).emit('joined', room, socket.id)//房间内所有人
+        //socket.broadcast.emit('joined', room, socket.id);//除自己，全部站点
+    });
+});
+
+
+
+
 https_server.listen(4433, '0.0.0.0');
 
