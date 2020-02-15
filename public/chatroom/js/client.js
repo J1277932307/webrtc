@@ -66,7 +66,7 @@ inputArea.onkeypress = (event)=> {
     if (event.keyCode == 13) { //回车发送消息
         var data = inputArea.value;
         data = userName.value + ':' + data;
-        socket.emit('message', room, data);
+        io.in(room).emit('message', room, data);
         inputArea.value = '';
         event.preventDefault();//阻止默认行为
     }
