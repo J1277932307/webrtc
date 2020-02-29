@@ -1,7 +1,7 @@
 'use strict'
 
 var localVideo = document.querySelector('video#localvideo');
-var remoteVide = document.querySelector('video#remotevideo');
+var remoteVideo = document.querySelector('video#remotevideo');
 var btnStart = document.querySelector('button#start');
 var btnCall = document.querySelector('button#call')
 var btnHangup = document.querySelector('button#hangup');
@@ -36,7 +36,7 @@ function start(){
 }
 
 function getRemoteStream(e) {
-    remoteVide.srcObject = e.streams[0];
+    remoteVideo.srcObject = e.streams[0];
 
 }
 
