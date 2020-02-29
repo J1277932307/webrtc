@@ -40,9 +40,15 @@ function getRemoteStream(e) {
 
 }
 
-function handlerOfferError(err) {
+function handleOfferError(err) {
     console.error('Failed to create offer:', err);
 }
+
+function handleAnswerError(err) {
+    console.error('Failed to create Answer!', err);
+}
+
+
 function getOffer(desc) {
     pc1.setLocalDescription(desc);
 
@@ -54,9 +60,7 @@ function getOffer(desc) {
 
 }
 
-function handlerAnswerError(err) {
-    console.error('Failed to create Answer!', err);
-}
+
 function getAnswer(desc) {
     pc2.setLocalDescription(desc);
 
