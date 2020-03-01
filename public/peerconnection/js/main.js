@@ -2,55 +2,76 @@
 
 var localVideo = document.querySelector('video#localvideo');
 var remoteVideo = document.querySelector('video#remotevideo');
+
 var btnStart = document.querySelector('button#start');
-var btnCall = document.querySelector('button#call')
+var btnCall = document.querySelector('button#call');
 var btnHangup = document.querySelector('button#hangup');
 
-var localStream;
+var offerSdpTextarea = document.querySelector('textarea#offer');
+var answerSdpTextarea = document.querySelector('textarea#answer');
 
+var localStream;
 var pc1;
 var pc2;
 
-function getMediaStream(stream) {
+function getMediaStream(stream){
     localVideo.srcObject = stream;
     localStream = stream;
 }
 
-function handleError(err) {
-    console.error('Failed to get Medai Stream!', err);
+function handleError(err){
+    console.error('Failed to get Media Stream!', err);
 }
 
 function start(){
-    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+
+    if(!navigator.mediaDevices ||
+        !navigator.mediaDevices.getUserMedia){
         console.error('the getUserMedia is not supported!');
         return;
-    } else {
+    }else {
         var constraints = {
-            video:true,
-            audio:false
+            video: true,
+            audio: false
         }
         navigator.mediaDevices.getUserMedia(constraints)
             .then(getMediaStream)
             .catch(handleError);
+
+        btnStart.disabled = true;
+        btnCall.disabled = false;
+        btnHangup.disabled = true;
     }
 }
 
-function getRemoteStream(e) {
+function getRemoteStream(e){
     remoteVideo.srcObject = e.streams[0];
-
 }
 
-function handleOfferError(err) {
+function handleOfferError(err){
     console.error('Failed to create offer:', err);
 }
 
-function handleAnswerError(err) {
-    console.error('Failed to create Answer!', err);
+function handleAnswerError(err){
+    console.error('Failed to create answer:', err);
 }
 
+function getAnswer(desc){
+    pc2.setLocalDescription(desc);
+    answerSdpTextarea.value = desc.sdp
 
-function getOffer(desc) {
+    //send desc to signal
+    //receive desc from signal
+
+    pc1.setRemoteDescription(desc);
+}
+
+function getOffer(desc){
     pc1.setLocalDescription(desc);
+    offerSdpTextarea.value = desc.sdp
+
+    //send desc to signal
+    //receive desc from signal
 
     pc2.setRemoteDescription(desc);
 
@@ -60,39 +81,36 @@ function getOffer(desc) {
 
 }
 
-
-function getAnswer(desc) {
-    pc2.setLocalDescription(desc);
-
-    pc1.setRemoteDescription(desc);
-}
-
 function call(){
+
     pc1 = new RTCPeerConnection();
     pc2 = new RTCPeerConnection();
 
     pc1.onicecandidate = (e)=>{
         pc2.addIceCandidate(e.candidate);
     }
+
     pc2.onicecandidate = (e)=>{
         pc1.addIceCandidate(e.candidate);
     }
+
     pc2.ontrack = getRemoteStream;
 
     localStream.getTracks().forEach((track)=>{
-        pc1.addTrack(track,localStream);
-    })
+        pc1.addTrack(track, localStream);
+    });
 
     var offerOptions = {
-        offerToReceiveAudio:0,
-        offerToReceiveVideo: 1
+        offerToRecieveAudio: 0,
+        offerToRecieveVideo: 1
     }
+
     pc1.createOffer(offerOptions)
         .then(getOffer)
         .catch(handleOfferError);
 
-
-
+    btnCall.disabled = true;
+    btnHangup.disabled = false;
 }
 
 function hangup(){
@@ -100,10 +118,11 @@ function hangup(){
     pc2.close();
     pc1 = null;
     pc2 = null;
+
+    btnCall.disabled = false;
+    btnHangup.disabled = true;
 }
+
 btnStart.onclick = start;
 btnCall.onclick = call;
 btnHangup.onclick = hangup;
-
-
-
